@@ -17,6 +17,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> menu = ['Project', 'Resume', 'Contact', 'About'];
   List<String> skils = ["UI/UX", "FireBase", "API", "Github", "Git", "SQLite"];
+  List<String> skilsDesription = [
+    'Crafting Seamless and Engaging Flutter Experiences',
+    "Empowering Flutter Apps with Real-time Database & Authentication & Notification",
+    'API Integration Proficiency: Enhancing Flutter Apps with Seamless Data Connectivity',
+    "GitHub Repository: Showcasing my Flutter Development Skills",
+    "Git Proficiency: Streamlining Collaboration and Version Control",
+    "SQLite Mastery: Efficient Data Management for Flutter Applications"
+  ];
+  List<String> contact = [
+    'Address ',
+    'Email',
+    'Phone',
+  ];
+  List<String> contactDetails = ['Maroc, Casabblanca, Lissasfa Rid Sofia', 'yousssef.serrar@gmail.com', '+2126 3504 6545'];
+  List<Icon> contacticon = [
+    Icon(
+      Icons.fmd_good,
+      color: Colors.white,
+    ),
+    Icon(Icons.email, color: Colors.white),
+    Icon(Icons.phone_android, color: Colors.white)
+  ];
   List<Image> skilsImage = [
     Image.asset('assets/ui.png'),
     Image.asset('assets/firebase.png'),
@@ -43,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Color defaultColor = Colors.white;
-    Color containerhover = Color.fromARGB(255, 61, 4, 196);
+    Color containerhover = Color.fromARGB(255, 143, 107, 228);
     Color shadowColor = Colors.black.withOpacity(0.3);
     double shadowOffset = 5.0;
     double shadowBlurRadius = 5.0;
@@ -131,6 +153,10 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Icon(Icons.facebook),
+                            )
                           ],
                         ),
                       ),
@@ -150,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 )),
             Container(
-              height: 500,
+              height: 800,
               width: MediaQuery.of(context).size.width,
               color: Color.fromARGB(255, 238, 235, 235),
               child: Column(
@@ -192,6 +218,7 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: GridView.builder(
                       itemCount: skils.length, // Number of items in the grid
+                      padding: EdgeInsets.all(40),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: MediaQuery.of(context).size.width > 600
                             ? 4
@@ -204,9 +231,10 @@ class _HomePageState extends State<HomePage> {
                           onEnter: (_) => _toggleHover(index, true),
                           onExit: (_) => _toggleHover(index, false),
                           child: FlipCard(
-                            rotateSide: RotateSide.bottom,
+                            rotateSide: RotateSide.right,
+
                             onTapFlipping: true, //When enabled, the card will flip automatically when touched.
-                            axis: FlipAxis.horizontal,
+                            axis: FlipAxis.vertical,
                             controller: controller,
                             frontWidget: Container(
                               margin: EdgeInsets.all(25.0),
@@ -241,13 +269,30 @@ class _HomePageState extends State<HomePage> {
                               child: Center(
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    skils[index],
-                                    style: TextStyle(
-                                      color: _isHovered[index] ? Colors.white : Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        skils[index],
+                                        style: TextStyle(
+                                          color: _isHovered[index] ? Colors.white : Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25.0,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      SizedBox(
+                                        width: 280,
+                                        child: Text(
+                                          skilsDesription[index],
+                                          style: TextStyle(
+                                            color: _isHovered[index] ? Colors.white : Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -255,6 +300,179 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              constraints: BoxConstraints(minHeight: 400, maxHeight: double.infinity),
+              width: MediaQuery.of(context).size.width,
+              color: Color.fromARGB(255, 31, 1, 101),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, left: 20),
+                        child: Text(
+                          'About',
+                          style: GoogleFonts.rubik(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 24.0),
+                          child: Divider(
+                            color: const Color.fromARGB(255, 231, 226, 226),
+                            thickness: 1,
+                            endIndent: 20,
+                            indent: 20,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          'Contact',
+                          style: GoogleFonts.rubik(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 24.0),
+                          child: Divider(
+                            color: const Color.fromARGB(255, 231, 226, 226),
+                            thickness: 1,
+                            endIndent: 20,
+                            indent: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 55.0, top: 40),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  constraints: BoxConstraints(minHeight: 200, maxHeight: double.infinity),
+                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 50.0, top: 15, right: 10),
+                                    child: Text(
+                                      "I am a dedicated Flutter developer with a passion for crafting seamless and engaging mobile applications. With a keen eye for design and a solid understanding of Flutter's cross-platform capabilities, I am committed to delivering exceptional user experiences. From sleek UI designs to efficient code implementation, I strive to bring innovative ideas to life and exceed expectations. Let's collaborate and create remarkable Flutter experiences together.",
+                                      style: GoogleFonts.ptSerif(fontSize: 16, fontWeight: FontWeight.bold, height: 1.5),
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0, top: 10),
+                                child: Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(image: AssetImage('assets/profile2.jpg'), fit: BoxFit.cover),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ])
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 300,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                  itemCount: contact.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 20.0),
+                                          child: Text(
+                                            '${contact[index]} :',
+                                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        SizedBox(height: 15),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            contacticon[index],
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10.0, top: 5),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width / 3,
+                                                child: Text(
+                                                  contactDetails[index],
+                                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    );
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text(
+                            'Your Mobile development Solution',
+                            style: GoogleFonts.alegreya(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.copyright,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Youssef Serrar',
+                                style: GoogleFonts.alegreya(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
                   )
                 ],
