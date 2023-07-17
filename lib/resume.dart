@@ -1,48 +1,37 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, avoid_unnecessary_containers, deprecated_member_use
+// ignore_for_file: unused_element, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
-import 'package:flutter_flip_card/flipcard/flip_card.dart';
-import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:portfolio/resume.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+import 'home.dart';
+
+class ResumePage extends StatefulWidget {
+  const ResumePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ResumePage> createState() => _ResumePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ResumePageState extends State<ResumePage> {
   List<String> menu = ['Project', 'Resume', 'Contact', 'About'];
-  List<String> skils = ["UI/UX", "FireBase", "API", "Github", "Git", "SQLite", "Hive"];
-  List<String> skilsDesription = [
-    'Crafting Seamless and Engaging Flutter Experiences',
-    "Empowering Flutter Apps with Real-time Database & Authentication & Notification",
-    'API Integration Proficiency: Enhancing Flutter Apps with Seamless Data Connectivity',
-    "GitHub Repository: Showcasing my Flutter Development Skills",
-    "Git Proficiency: Streamlining Collaboration and Version Control",
-    "SQLite Mastery: Efficient Data Management for Flutter Applications",
-    "Efficient Data Storage with Hive: Powering Flutter Apps with Lightweight NoSQL Database"
-  ];
   List<String> contact = [
     'Address ',
     'Email',
     'Phone',
   ];
   List<String> contactDetails = ['Maroc, Casabblanca, Lissasfa Rid Sofia', 'yousssef.serrar@gmail.com', '+2126 3504 6545'];
+
   List<Icon> contacticon = [
-    Icon(
+    const Icon(
       Icons.fmd_good,
       color: Colors.white,
     ),
-    Icon(Icons.email, color: Colors.white),
-    Icon(Icons.phone_android, color: Colors.white)
+    const Icon(Icons.email, color: Colors.white),
+    const Icon(Icons.phone_android, color: Colors.white)
   ];
   List<Image> skilsImage = [
     Image.asset('assets/ui.png'),
@@ -66,32 +55,13 @@ class _HomePageState extends State<HomePage> {
     'https://github.com/youssefssef',
     'https://www.linkedin.com/in/serrar-youssef-123128211/'
   ];
-
-  late List<bool> _isHovered;
   late List<bool> _hovered;
+  late bool _isHovered1 = false;
+  late bool _isHovered2 = false;
+
   final controller = FlipCardController();
   final ScrollController _scrollController = ScrollController();
-
-  void _scrollToBottom() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _isHovered = List.filled(skils.length, false);
-    _hovered = List.filled(socialImage.length, false);
-  }
-
-  void _toggleHover(int index, bool isHovered) {
-    setState(() {
-      _isHovered[index] = isHovered;
-    });
-  }
+  String pdfPath = 'file:///C:/Users/Youssef%20Ssef/Documents/Resume/flutter_resume.pdf';
 
   void _toggleIsHover(int index, bool hovered) {
     setState(() {
@@ -99,21 +69,42 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _toggleIsHover1(bool hover) {
+    setState(() {
+      _isHovered1 = hover;
+    });
+  }
+
+  void _toggleIsHover2(bool hover2) {
+    setState(() {
+      _isHovered2 = hover2;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _hovered = List.filled(socialImage.length, false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color defaultColor = Colors.white;
-    Color containerhover = Color.fromARGB(255, 143, 107, 228);
-    Color shadowColor = Colors.black.withOpacity(0.3);
-    double shadowOffset = 5.0;
-    double shadowBlurRadius = 5.0;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 31, 1, 101),
+        backgroundColor: const Color.fromARGB(255, 31, 1, 101),
         automaticallyImplyLeading: false,
         title: TextButton(
             onPressed: () {
-              Get.to(HomePage());
+              Get.to(const HomePage());
             },
             child: Text(
               'Serrar Youssef',
@@ -129,14 +120,12 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       if (menu[index] == 'Contact' || menu[index] == 'About') {
                         _scrollToBottom();
-                      } else if (menu[index] == 'Resume') {
-                        Get.to(ResumePage());
                       }
                     },
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
                         if (states.contains(MaterialState.hovered)) {
-                          return Color.fromARGB(255, 80, 0, 240).withOpacity(0.8); // Change to your desired color
+                          return const Color.fromARGB(255, 80, 0, 240).withOpacity(0.8); // Change to your desired color
                         }
                         return Colors.transparent; // Use default color when not hovered
                       },
@@ -145,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         menu[index],
-                        style: GoogleFonts.courgette(textStyle: TextStyle(color: Colors.white)),
+                        style: GoogleFonts.courgette(textStyle: const TextStyle(color: Colors.white)),
                       ),
                     )),
               );
@@ -158,80 +147,16 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-                height: 540,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                  center: Alignment(0.4, 0.1),
-                  radius: 0.4,
-                  colors: [
-                    const Color.fromARGB(255, 71, 71, 71),
-                    Color.fromARGB(255, 86, 85, 85),
-                    Color.fromARGB(255, 31, 1, 101),
-                  ],
-                )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment(2, -0.4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  'Serrar youssef',
-                                  style: GoogleFonts.abrilFatface(textStyle: TextStyle(color: Colors.white, fontSize: 55)),
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20.0, left: 60),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: AnimatedTextKit(
-                                  animatedTexts: [
-                                    TyperAnimatedText('FLUTTER  DEVELOPER',
-                                        textStyle: GoogleFonts.libreBaskerville(textStyle: TextStyle(color: Colors.white, fontSize: 30)),
-                                        speed: Duration(milliseconds: 100)),
-                                  ],
-                                  totalRepeatCount: 80,
-                                  pause: const Duration(milliseconds: 500),
-                                  displayFullTextOnTap: true,
-                                  stopPauseOnTap: true,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Align(
-                          alignment: Alignment(0.9, 0.1),
-                          child: Container(
-                            height: 600,
-                            width: 980,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                image: DecorationImage(image: AssetImage('assets/profile.png'), fit: BoxFit.cover)),
-                          )),
-                    ),
-                  ],
-                )),
-            Container(
-              height: 800,
-              width: MediaQuery.of(context).size.width,
-              color: Color.fromARGB(255, 238, 235, 235),
+              constraints: const BoxConstraints(minHeight: 1000, maxHeight: double.infinity),
+              color: Colors.white,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsets.only(top: 24.0),
                           child: Divider(
                             color: Colors.grey,
                             thickness: 1,
@@ -243,13 +168,13 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
-                          'Skills',
+                          'My Resume',
                           style: GoogleFonts.rubik(fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsets.only(top: 24.0),
                           child: Divider(
                             color: Colors.grey,
                             thickness: 1,
@@ -260,100 +185,96 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: skils.length, // Number of items in the grid
-                      padding: EdgeInsets.all(40),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: MediaQuery.of(context).size.width > 600
-                            ? 4
-                            : MediaQuery.of(context).size.width > 400
-                                ? 3
-                                : 2, // Number of columns
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    height: 800,
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    child: ListView(children: [
+                      Container(
+                        height: 1400,
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                        child: SfPdfViewer.asset(
+                          'assets/flutter_resume.pdf',
+                          scrollDirection: PdfScrollDirection.vertical,
+                        ),
                       ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return MouseRegion(
-                          onEnter: (_) => _toggleHover(index, true),
-                          onExit: (_) => _toggleHover(index, false),
-                          child: FlipCard(
-                            rotateSide: RotateSide.right,
-
-                            onTapFlipping: true, //When enabled, the card will flip automatically when touched.
-                            axis: FlipAxis.vertical,
-                            controller: controller,
-                            frontWidget: Container(
-                              margin: EdgeInsets.all(25.0),
+                    ]),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0, bottom: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MouseRegion(
+                          onEnter: (_) => _toggleIsHover1(true),
+                          onExit: (_) => _toggleIsHover1(false),
+                          child: InkWell(
+                            onTap: () {
+                              String pdfUrl = 'https://drive.google.com/file/d/1SjmyPx3Fime0_fmofACb4yDjFK6ZZ4rI/view?usp=sharing';
+                              _downloadPDF(pdfUrl);
+                            },
+                            child: Container(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width / 7.5,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: _isHovered[index]
-                                      ? [
-                                          BoxShadow(
-                                            color: shadowColor,
-                                            offset: Offset(shadowOffset, shadowOffset),
-                                            blurRadius: shadowBlurRadius,
-                                          ),
-                                        ]
-                                      : null,
-                                  image: DecorationImage(image: skilsImage[index].image, fit: BoxFit.cover)),
-                            ),
-                            backWidget: Container(
-                              margin: EdgeInsets.all(25.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: _isHovered[index] ? containerhover : defaultColor,
-                                boxShadow: _isHovered[index]
-                                    ? [
-                                        BoxShadow(
-                                          color: shadowColor,
-                                          offset: Offset(shadowOffset, shadowOffset),
-                                          blurRadius: shadowBlurRadius,
-                                        ),
-                                      ]
-                                    : null,
-                              ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: _isHovered1 ? const Color.fromARGB(255, 32, 4, 247) : Colors.white,
+                                  border: Border.all(color: _isHovered1 ? const Color.fromARGB(255, 32, 4, 247) : Colors.grey)),
                               child: Center(
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        skils[index],
-                                        style: TextStyle(
-                                          color: _isHovered[index] ? Colors.white : Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25.0,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      SizedBox(
-                                        width: 280,
-                                        child: Text(
-                                          skilsDesription[index],
-                                          style: TextStyle(
-                                            color: _isHovered[index] ? Colors.white : Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
+                                  child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Download Resume',
+                                    style: TextStyle(color: _isHovered1 ? Colors.white : Colors.black, fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ),
+                              )),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        const SizedBox(width: 20),
+                        MouseRegion(
+                          onEnter: (_) => _toggleIsHover2(true),
+                          onExit: (_) => _toggleIsHover2(false),
+                          child: InkWell(
+                            onTap: () {
+                              String pdfUrl = 'https://drive.google.com/file/d/1toDimhKqyOOiYxs2FmzZHVuPEQsMy9Dl/view?usp=sharing';
+                              _downloadPDF(pdfUrl);
+                            },
+                            child: Container(
+                              height: 60,
+                              width: MediaQuery.of(context).size.width / 7.5,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: _isHovered2 ? const Color.fromARGB(255, 32, 4, 247) : Colors.white,
+                                  border: Border.all(color: _isHovered2 ? const Color.fromARGB(255, 32, 4, 247) : Colors.grey)),
+                              child: Center(
+                                  child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Telecharger CV ',
+                                    style: TextStyle(color: _isHovered2 ? Colors.white : Colors.black, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
               ),
             ),
             Container(
-              constraints: BoxConstraints(minHeight: 400, maxHeight: double.infinity),
+              constraints: const BoxConstraints(minHeight: 400, maxHeight: double.infinity),
               width: MediaQuery.of(context).size.width,
-              color: Color.fromARGB(255, 31, 1, 101),
+              color: const Color.fromARGB(255, 31, 1, 101),
               child: Column(
                 children: [
                   Row(
@@ -365,11 +286,11 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.rubik(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsets.only(top: 24.0),
                           child: Divider(
-                            color: const Color.fromARGB(255, 231, 226, 226),
+                            color: Color.fromARGB(255, 231, 226, 226),
                             thickness: 1,
                             endIndent: 20,
                             indent: 20,
@@ -383,11 +304,11 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.rubik(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: EdgeInsets.only(top: 24.0),
                           child: Divider(
-                            color: const Color.fromARGB(255, 231, 226, 226),
+                            color: Color.fromARGB(255, 231, 226, 226),
                             thickness: 1,
                             endIndent: 20,
                             indent: 20,
@@ -396,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                                 padding: const EdgeInsets.only(left: 55.0, top: 40),
                                 child: Container(
                                   width: MediaQuery.of(context).size.width / 2.5,
-                                  constraints: BoxConstraints(minHeight: 200, maxHeight: double.infinity),
+                                  constraints: const BoxConstraints(minHeight: 200, maxHeight: double.infinity),
                                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 50.0, top: 15, right: 10),
@@ -427,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                                 child: Container(
                                   width: 80,
                                   height: 80,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(image: AssetImage('assets/profile2.jpg'), fit: BoxFit.cover),
                                     color: Colors.white,
@@ -458,11 +379,11 @@ class _HomePageState extends State<HomePage> {
                                             padding: const EdgeInsets.only(top: 20.0),
                                             child: Text(
                                               '${contact[index]} :',
-                                              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          SizedBox(height: 15),
+                                          const SizedBox(height: 15),
                                           Row(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -473,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                                                   width: MediaQuery.of(context).size.width / 3,
                                                   child: Text(
                                                     contactDetails[index],
-                                                    style: TextStyle(color: Colors.white, fontSize: 16),
+                                                    style: const TextStyle(color: Colors.white, fontSize: 16),
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
@@ -515,7 +436,9 @@ class _HomePageState extends State<HomePage> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       String url = socialUrl[index];
+                                      // ignore: deprecated_member_use
                                       if (await canLaunch(url)) {
+                                        // ignore: deprecated_member_use
                                         await launch(url);
                                       } else {
                                         throw 'Could not launch $url';
@@ -538,7 +461,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.copyright,
                               color: Colors.white,
                               size: 14,
@@ -562,5 +485,13 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _downloadPDF(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
